@@ -1,0 +1,21 @@
+{
+  "name": "mi-primer-proyecto-node",
+  "version": "1.0.0",
+  "description": "este es mi primer proyecto de node",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "hola": "echo 'hola mundo'",
+    "dev": "",
+    "start": "node index.js"
+   
+  },
+  "keywords": [
+    "node"
+  ],
+  "author": "Max",
+  "license": "ISC",
+  "dependencies": {
+    "prompt-sync": "^4.2.0"
+  }
+}
