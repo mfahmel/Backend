@@ -1,11 +1,11 @@
 {
-  "name": "express-server",
+  "name": "express",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js",
-   "dev": "nodemon index.js"
+    "start" : "nodemon index.js",
+    "dev" : "nodemon index.js"
   },
   "keywords": [],
   "author": "",
