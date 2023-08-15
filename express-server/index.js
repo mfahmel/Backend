@@ -1,96 +1,49 @@
 const express = require('express');
-
 const server = express();
-
-server.use(express.json());
+const port = 3000;
 
 let koders = [];
 
-//listar koders
-server.get('/koders', (request, response) => {
-    response.json(koders);
+//PARA PETICIONES
+//! ACCEDE AL BODY
+server.use(express.json());
+
+server.get('/koders', (rq, rs) => rs.json(koders));
+
+server.post('/koders', (rq, rs) => {
+  /* koders.push({ name: rq.params.name }); */
+  koders.push(rq.body);
+
+  rs.json({ message: 'Koder agregado correctamente', koders: koders });
 });
 
-//agregar koders
+server.delete('/koders/:name', (rq, rs) => {
+  const validate = koders.find(({ name }) => name === rq.params.name);
 
-server.post('/koders', (request, response) => {
- koders.push(request.body);
+  validate || rs.status(404).json({ message: 'Ese koder no existe...' });
 
- response.json({ message: 'koder added', koders });
+  const newkoders = koders.filter(({ name }) => name !== rq.params.name);
+  koders = newkoders;
+  rs.json({ message: 'Koder eliminado correctamente', koders: koders });
 });
 
-server.delete('/koders/:name', (request, response) => {
-    const koderExists = koders.find((koder) => {
-        return koder.name === request.params.name;
-    });
-    if (!koderExists) {
-        response.status(404);
-        response.json({ message: 'koder not found' });
-        return;
-    }
-    koders = koders.filter((koder) => {
-        return koder.name !== request.params.name;
-    });
-
-    response.json({ message: 'koder deleted', koders });
+/* server.get('/hola', (req, res) => {
+  res.type('html').send('<h1>Hola</h1>');
 });
 
+server.post('/hola', (req, res) => {
+//   res.writeHead(200, {
+//     'Content-Type': 'text/plain',
+//   });
+//   res.end('HOLA DESDE EXPRESS CON POST');
+  res.status(201).json({ message: 'hola desde post' });
+});
 
+server.post('/hola/:name', (req, res) => {
+  const { name } = req.params;
+  res.json({ message: `¡Hola, ${name}!` });
+}); */
 
-
-
-
-server.listen(8080, () => {
-    console.log('Server listening on port 8080');
-} );
-
-
-
-//get /hola
-
-// server.get("/hola", (request, response) => {
-//   response.json({ message: "Hola desde express con get" });
-// }
-// );
-
-
-// server.get('/hola', (request, response) => {
-//     response.end('Hola desde express');
-// }
-// );
-
-// server.post('/hola', (request, response) => {
-//   response.json({ message: 'Hola desde express con post' });
-// });
-
-// server.get("/hola/:nombre/saludo:tipo", (request, response) => {
-//     const nombre = request.params.nombre;
-//     const tipo = request.params.tipo;
-//     let saludo = "Hola";
-
-//     if (tipo === "formal") {
-//         saludo = "Buenos tardes"
-//     }
-
-//     response.json({ message: `${saludo} ${nombre}` });
-//     }
-// );
-
-
-
-//     server.get('/', (request, response) => {
-//     response.writeHead(200, { 'Content-Type': 'text/plain' });
-//     response.end('GET DESDE LA RAIZ');
-//     });
-
-//     server.get("/hola/:nombre", (request, response) => {
-//         response.json({ message: `Hola ${request.params.nombre}` });
-//         }   
-//     );
-    
-        
-        
-
-
-
-
+server.listen(port, () =>
+  console.log(`Example server listening on port ${port}!`)
+);
