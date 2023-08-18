@@ -9,6 +9,22 @@ const port = 3001;
 
 
 server.use(express.json()); 
+
+server.use((request, response, next) => {
+    console.log('Middleware de aplicación 2');
+    next();
+});
+
+server.use((request, response, next) => {
+    console.log('Middleware de aplicación');
+    next();
+}, (request, response, next) => {
+    console.log('Middleware de aplicación 3');
+    next();
+});
+
+
+
 server.use("/koders", kodersRouter); 
 server.use("/mentores", mentoresRouter); 
 server.use("/generaciones", generacionesRouter);
